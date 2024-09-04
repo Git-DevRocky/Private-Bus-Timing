@@ -13,8 +13,8 @@ function Navbar() {
     console.log(to);
   }, [from, to]);
   return (
-    <div className="bg-black z-100 sticky top-0 text-white h-15   p-5 flex items-center justify-between">
-      <div className="flex items-center ">
+    <div className="bg-black z-100 sticky top-0 text-white h-15   p-5 flex items-center justify-between flex-col lg:flex-row">
+      <div className="flex items-center  ">
         <a href="/" className="flex items-center">
           <img
             src="https://i.pinimg.com/736x/3e/17/bd/3e17bdebf827bb5c34cb7900c901acec.jpg"
@@ -24,8 +24,8 @@ function Navbar() {
           <h1 className="mx-3 font-bold text-2xl">Bus-Timings</h1>
         </a>
       </div>
-      <div className=" text-black flex p-2  ">
-        <div className="flex items-center bg-gray-300 p-2 mx-3  rounded-tl-full rounded-bl-full ">
+      <div className=" text-black flex p-2  flex-col lg:flex-row  ">
+        <div className="flex items-center bg-gray-300 p-2 m-3  lg:mx-3 rounded-tl-full rounded-bl-full ">
           <h1 className=" font-semibold px-2">From:</h1>
           <select
             className="p-1  outline-none bg-gray-300 cursor-pointer"
@@ -36,7 +36,7 @@ function Navbar() {
             ))}
           </select>
         </div>
-        <div className="flex items-center bg-gray-300  p-2 rounded-tr-full rounded-br-full ">
+        <div className="flex items-center bg-gray-300  p-2 rounded-tr-full rounded-br-full m-3  lg:mx-3 ">
           <h1 className=" font-semibold ">To:</h1>
           <select
             className="p-1  outline-none bg-gray-300 cursor-pointer"

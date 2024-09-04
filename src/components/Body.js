@@ -26,12 +26,12 @@ function Body() {
 
   return (
     <div className="flex w-full  flex-col bg-white h-[90vh] ">
-      <p className="text-center text-2xl underline font-bold uppercase">
+      <p className="text-center text-small lg:text-2xl underline font-bold uppercase">
         Route Details -PATHANAMTHITTA
       </p>
       <div className="flex  p-3 m-3 h-5/6 flex-col lg:flex-row">
-        <div className=" p-2  lg:w-1/2 shadow-md md:w-full h-1/2 lg:h-full flex flex-col m-1 overflow-y-auto items-center">
-          <div className="flex items-center w-full">
+        <div className=" p-2  lg:w-1/2 shadow-md md:w-full   h-full flex flex-col m-1 overflow-y-auto items-center">
+          <div className="flex items-center w-full flex-col lg:flex-row">
             <img
               src="https://img.freepik.com/premium-vector/logo-bus-icon-vector-silhouette-isolated-design-school-bus-concept-black-icon_653669-3331.jpg?w=740"
               alt=""
@@ -49,7 +49,7 @@ function Body() {
             <h1 className="p-1 m-1 ">{currTime}</h1>
           </div>
         </div>
-        <div className="   lg:w-1/2 shadow-md md:w-full h-1/2 lg:h-full m-1 overflow-y-auto p-4">
+        <div className="   lg:w-1/2 shadow-md md:w-full h-[100vh] lg:h-full m-1 overflow-y-auto p-4">
           <h1 className="sticky top-0 z-100 bg-blue-800 bg-opacity-94  text-white p-3">{`Bus's Travelling through ${from} to ${to}`}</h1>
           <div className="p-3 ">
             {vehicles?.map((v) => (

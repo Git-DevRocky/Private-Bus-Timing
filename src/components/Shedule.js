@@ -5,7 +5,7 @@ import FullscreenIcon from "@mui/icons-material/Fullscreen";
 import StartIcon from "@mui/icons-material/Start";
 import CloseIcon from "@mui/icons-material/Close";
 function Shedule() {
-  const { from, to, vehicle, routes, trip } = useRoute();
+  const { vehicle, routes, trip } = useRoute();
   const [isActive, setIsActive] = useState(false);
   const [curr, setCurr] = useState([]);
   const currTrip = trip.schedule;
@@ -20,18 +20,18 @@ function Shedule() {
       <div className=" flex">
         <h1 className="font-bold text-3xl text-yellow-600"> {vehicle}</h1>
       </div>
-      <div className="flex p-2 m-2 overflow-y-auto  shadow-md items-center  ">
+      <div className="flex p-2 m-2 overflow-y-auto  shadow-md items-center   ">
         {routes.map((route) => (
           <>
-            <p className="text-2xl font-bold m-1">{route}</p>
+            <p className="text-sm lg:text-2xl font-bold m-1">{route}</p>
             <KeyboardDoubleArrowRightIcon />
           </>
         ))}
       </div>
 
-      <div className=" h-[80vh]  w-screen overflow-y-scroll overflow-x-hidden flex  flex-col items-center  text-center">
+      <div className=" h-[80vh]  w-screen overflow-y-auto overflow-x-auto flex  flex-col  items-center  text-center">
         {currTrip.map((curr) => (
-          <div className="flex p-3 bg-slate-100  w-[150vh] m-1 uppercase justify-between  items-center text-left hover:shadow-lg cursor-pointer">
+          <div className="flex flex-col lg:flex-row p-3 bg-slate-100  w-full lg:w-[150vh] m-1 uppercase justify-between  items-center text-left hover:shadow-lg cursor-pointer ">
             <StartIcon />
             <div className="flex flex-col items-start text-left justify-center p-1 m-1">
               <p className="text-left">
