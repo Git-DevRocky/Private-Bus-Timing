@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "bus-timings",
+  "name": "Bus-timings",
   "icons": [
     {
       "src": "favicon.ico",
