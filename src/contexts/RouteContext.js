@@ -5,12 +5,13 @@ const RouteContext = createContext();
 export const RouteProvider = ({ children }) => {
   const [from, setFrom] = useState("");
   const [to, setTo] = useState("");
-  const [vehicles] = useState([]);
+  const [vehicles, setVehicles] = useState([]);
   const [vehicle, setVehicle] = useState("");
   const [trip, setTrip] = useState([]);
   const [routes, setRoutes] = useState([]);
   const [schedules, setSchedules] = useState([]);
   const [dist, setDist] = useState("");
+
   return (
     <RouteContext.Provider
       value={{
@@ -19,6 +20,7 @@ export const RouteProvider = ({ children }) => {
         to,
         setTo,
         vehicles,
+        setVehicles,
         vehicle,
         setVehicle,
         trip,

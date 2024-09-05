@@ -2,7 +2,7 @@ import React from "react";
 
 function AddRoute() {
   return (
-    <div className="h-[90vh] flex items-center justify-center bg-slate-100 ">
+    <div className="h-[90vh] flex items-center justify-center bg-slate-600 ">
       <form action="" className="flex flex-col w-[80vw]">
         <input
           type="text"
@@ -35,7 +35,7 @@ function AddRoute() {
           className="p-3 m-3 outline-none rounded bg-white"
         />
         <button
-          className="font-bold "
+          className="font-bold  text-white"
           onClick={() => alert("need admin permission")}
         >
           {" "}

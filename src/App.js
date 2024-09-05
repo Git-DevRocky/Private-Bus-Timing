@@ -3,10 +3,13 @@ import Body from "./components/Body";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Shedule from "./components/Shedule";
 import AddRoute from "./components/AddRoute";
+
+import Navbar from "./components/Navbar";
 function App() {
   return (
     <div className="text-center ">
       <BrowserRouter>
+        <Navbar />
         <Routes path="/">
           <Route path="" element={<Body />} />
           <Route path="/schedule" element={<Shedule />} />
