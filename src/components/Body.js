@@ -1,14 +1,20 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import { useRoute } from "../contexts/RouteContext";
-import jsonData from "../data/data.json";
+
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import toast, { Toaster } from "react-hot-toast";
+import { p } from "framer-motion/client";
 
 function Body() {
-  const { from, to, vehicles, setVehicle, setRoutes, setTrip } = useRoute();
-  const schedules = jsonData.busSchedules;
-  const currDate = new Date().toLocaleDateString();
-  const currTime = new Date().toLocaleTimeString();
+  const { dist } = useRoute();
+
+  const { from, to, setFrom, setTo, vehicles, setVehicle, setRoutes, setTrip } =
+    useRoute();
+
+  const { schedules, setSchedules } = useRoute();
+
   const navigate = useNavigate();
   schedules.filter((schedule) => {
     if (schedule.route.includes(from) && schedule.route.includes(to)) {
@@ -19,6 +25,32 @@ function Body() {
     return "";
   });
 
+  const uniqueRoutes = [
+    ...new Set(schedules.map((schedule) => schedule.route[0])),
+  ];
+  useEffect(() => {
+    console.log(to);
+  }, [from, to]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await axios.get(
+          `https://raw.githubusercontent.com/amith-vp/Kerala-Private-Bus-Timing/main/${dist}.json`
+        );
+        //
+        setSchedules(res.data.busSchedules);
+        console.log("fetched data");
+
+        toast.success("success");
+      } catch (err) {
+        console.log(err);
+      }
+    };
+
+    fetchData();
+  }, [dist, setSchedules, navigate]);
+
   const handleClick = (v) => {
     setVehicle(v);
     navigate("/schedule");
@@ -26,31 +58,58 @@ function Body() {
 
   return (
     <div className="flex w-full  flex-col bg-white h-[90vh] ">
+      <div>
+        <Toaster />
+      </div>
+
       <p className="text-center text-small lg:text-2xl underline font-bold uppercase">
-        Route Details -PATHANAMTHITTA
+        Route Details - Timings
       </p>
-      <div className="flex  p-3 m-3 h-5/6 flex-col lg:flex-row">
-        <div className=" p-2  lg:w-1/2 shadow-md md:w-full   h-full flex flex-col m-1 overflow-y-auto items-center">
-          <div className="flex items-center w-full flex-col lg:flex-row">
+      <div className="flex  p-3  h-5/6 flex-col lg:flex-row">
+        <div className="   lg:w-1/2 shadow-md md:w-full   h-full flex flex-col  overflow-y-auto items-center">
+          <div className="flex items-center  flex-col ">
             <img
               src="https://img.freepik.com/premium-vector/logo-bus-icon-vector-silhouette-isolated-design-school-bus-concept-black-icon_653669-3331.jpg?w=740"
               alt=""
-              width={400}
-              height={400}
+              width={250}
+              height={250}
             />
-            <div className="flex flex-col items-center w-1/2">
-              <h1 className="text-2xl font-semibold text-green-800">{from}</h1>
-              <h1 className="2xl font-bold">TO</h1>
-              <h1 className="text-2xl font-semibold text-red-800">{to}</h1>
+
+            <div className=" text-black flex p-3   flex-col    w-[100vh] ">
+              <div className="flex items-center bg-gray-300  p-2 rounded-full m-3  lg:mx-3 w-full justify-between">
+                <p>From</p>
+                <select
+                  className="p-1  outline-none bg-gray-300 cursor-pointer w-full"
+                  onChange={(e) => setFrom(e.target.value)}
+                >
+                  {/* <option value="">Select Starting point</option> */}
+                  {uniqueRoutes.map((route, index) => (
+                    <option key={index} className="text-sm ">
+                      {route}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div className="flex items-center bg-gray-300  p-2 rounded-full m-3  lg:mx-3 w-full justify-between ">
+                <p>To</p>
+                <select
+                  className="p-1  outline-none bg-gray-300 cursor-pointer w-full"
+                  onChange={(e) => setTo(e.target.value)}
+                >
+                  {/* <option value="">Select Your Destination</option> */}
+                  {uniqueRoutes.map((route, index) => (
+                    <option key={index} className="text-sm">
+                      {route}
+                    </option>
+                  ))}
+                </select>
+              </div>
             </div>
-          </div>
-          <div className="text-small font-bold p-2 bg-slate-100 shadow-xl rounded-md flex flex-col items-center justify-center ">
-            <h1 className="p-1 m-1 ">{currDate}</h1>
-            <h1 className="p-1 m-1 ">{currTime}</h1>
           </div>
         </div>
         <div className="   lg:w-1/2 shadow-md md:w-full h-[100vh] lg:h-full m-1 overflow-y-auto p-4">
-          <h1 className="sticky top-0 z-100 bg-blue-800 bg-opacity-94  text-white p-3">{`Bus's Travelling through ${from} to ${to}`}</h1>
+          <h1 className="sticky top-0 z-10 bg-blue-800 bg-opacity-94  text-white p-3">{`Bus's Travelling through ${from} to ${to}`}</h1>
+
           <div className="p-3 ">
             {vehicles?.map((v) => (
               <div className="flex bg-gray-200 p-3 hover:shadow-sm cursor-pointer m-1 justify-between">

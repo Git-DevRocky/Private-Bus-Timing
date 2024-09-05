@@ -4,6 +4,7 @@ import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArro
 import FullscreenIcon from "@mui/icons-material/Fullscreen";
 import StartIcon from "@mui/icons-material/Start";
 import CloseIcon from "@mui/icons-material/Close";
+
 function Shedule() {
   const { vehicle, routes, trip } = useRoute();
   const [isActive, setIsActive] = useState(false);
@@ -18,12 +19,14 @@ function Shedule() {
   return (
     <div className="flex flex-col p-4 m-4 items-center justify-center ">
       <div className=" flex">
-        <h1 className="font-bold text-3xl text-yellow-600"> {vehicle}</h1>
+        <h1 className="font-bold text-2xl text-yellow-600"> {vehicle}</h1>
       </div>
-      <div className="flex p-2 m-2 overflow-y-auto  shadow-md items-center   ">
+      <div className="flex p-2 m-2 overflow-y-auto  shadow-md items-center w-full  ">
         {routes.map((route) => (
           <>
-            <p className="text-sm lg:text-2xl font-bold m-1">{route}</p>
+            <p className="text-sm lg:text-1xl font-bold m-1">
+              {route !== "" ? route : "name error"}
+            </p>
             <KeyboardDoubleArrowRightIcon />
           </>
         ))}
@@ -48,7 +51,7 @@ function Shedule() {
                 </span>
               </p>
             </div>
-            <div className="flex flex-col items-center text-left justify-center p-1 m-1">
+            <div className="flex flex-col items-center text-left justify-center p-1 m-1 text-sm">
               <p className="text-left">
                 Ending station :
                 <span className="font-bold text-blue-600">
@@ -67,13 +70,13 @@ function Shedule() {
               onClick={() => handleExpand(curr)}
             >
               more
-              <FullscreenIcon className=" text-3xl  p-1 " />
+              <FullscreenIcon className=" text-2xl  p-1 " />
             </button>
           </div>
         ))}
       </div>
       {isActive && (
-        <div className="className={`overflow-y-auto overflow-x-hidden fixed top-0 right-50 left-50 z-50 flex flex-col  md:inset-0 h-[calc(100%-1rem)]  bg-black bg-opacity-85 text-white">
+        <div className="overflow-y-auto overflow-x-hidden fixed top-0 right-50 left-50 z-50 flex flex-col  md:inset-0 h-[calc(100%-1rem)]  bg-black bg-opacity-85 text-white">
           <button onClick={() => setIsActive(false)} className="justify-end">
             <CloseIcon className="bg-white p-2 rounded-full text-black text-2xl font-bold m-4" />
           </button>

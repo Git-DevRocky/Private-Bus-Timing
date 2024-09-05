@@ -7,12 +7,10 @@ import { RouteProvider } from "./contexts/RouteContext";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <React.StrictMode>
-    <RouteProvider>
-      <Navbar />
-      <App />
-    </RouteProvider>
-  </React.StrictMode>
+  <RouteProvider>
+    <Navbar />
+    <App />
+  </RouteProvider>
 );
 
 // If you want to start measuring performance in your app, pass a function
