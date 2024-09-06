@@ -18,7 +18,7 @@ The application uses a collection of JSON data to provide up-to-date bus timings
 
 ## How to Use
 
-1. **Visit the Website**: 
+1. **Visit the Website**: https://kerala-bus-timings.vercel.app/
 2. **Search for Timings**: Enter your desired route or destination in the search bar.
 3. **Explore Results**: View detailed timings for the selected route.
 
