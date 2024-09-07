@@ -3,14 +3,23 @@ import React, { useState } from "react";
 import { useRoute } from "../contexts/RouteContext";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useNavigate } from "react-router-dom";
-import GitHubIcon from "@mui/icons-material/GitHub";
+import "reactjs-popup/dist/index.css";
 import Hamburger from "hamburger-react";
+import { useSelector } from "react-redux";
+
 function Navbar() {
   const { setDist } = useRoute();
   const navigate = useNavigate();
   const [isOpen, setOpen] = useState(false);
+  const to = useSelector((state) => state.location.to);
+  const from = useSelector((state) => state.location.from);
+  const handleMap = () => {
+    to === "" && from === ""
+      ? alert("you have to select route")
+      : navigate("/map");
+  };
   return (
-    <div className="bg-black z-100  sticky top-0 text-white h-15   p-2 flex items-center justify-between flex-col lg:flex-row">
+    <div className="bg-black z-200   relative text-white h-15   p-2 flex items-center justify-between flex-col lg:flex-row">
       <div className="flex items-center  ">
         <button onClick={() => navigate("/")} className="flex items-center">
           <img
@@ -54,7 +63,7 @@ function Navbar() {
                 </li>
               </button>
 
-              <button onClick={() => navigate("/map")} className="w-full">
+              <button onClick={() => handleMap()} className="w-full">
                 <li className="p-1 hover:bg-gray-200 hover:text-black hover:rounded">
                   View in Map
                 </li>

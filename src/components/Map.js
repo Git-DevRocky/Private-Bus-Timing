@@ -93,8 +93,9 @@ const Map = () => {
         <MapContainer
           center={[9.5916, 76.5223]} // Initial center, will be adjusted by fitBounds
           zoom={13}
-          style={{ height: "600px", width: "100%" }}
+          style={{ height: "100vh", width: "100vw" }}
           whenCreated={(map) => (mapRef.current = map)}
+          className=" z-10 relative"
         >
           <TileLayer
             url="https://a.tile.openstreetmap.org/{z}/{x}/{y}.png"
