@@ -10,7 +10,7 @@ import NotListedLocationIcon from "@mui/icons-material/NotListedLocation";
 import { useDispatch, useSelector } from "react-redux";
 import { Audio } from "react-loader-spinner";
 import { CSpinner } from "@coreui/react";
-
+import CachedIcon from "@mui/icons-material/Cached";
 function Body() {
   const { dist } = useRoute();
 
@@ -78,7 +78,7 @@ function Body() {
   };
 
   return (
-    <div className="flex w-full  flex-col bg-white h-[75vh]  z-50">
+    <div className="flex w-full  flex-col bg-road bg-cover bg-center h-[75vh]  z-50 font-poppins">
       <div>
         <Toaster />
       </div>
@@ -96,18 +96,18 @@ function Body() {
         </div>
       )}
 
-      <p className="text-center text-small lg:text-2xl underline font-bold uppercase">
+      {/* <p className="text-center text-small lg:text-2xl underline font-bold uppercase">
         Route Details - Timings
-      </p>
+      </p> */}
 
       <div className="flex  lg:p-3  p-1 h-[100vh] w-full  flex-col lg:flex-row">
-        <div className="   lg:w-1/2 shadow-lg md:w-full   lg:h-[70vh]  flex flex-col  overflow-y-auto items-center p-1">
+        <div className="   lg:w-1/2 shadow-lg md:w-full   lg:h-[80vh]  flex flex-col  overflow-y-auto items-center p-1">
           <div className="flex items-center  flex-col  w-full ">
             <button
               onClick={handleSearch}
               className="p-2 bg-green-700 text-white rounded hover:bg-green-600"
             >
-              Load Routes
+              Load Routes <CachedIcon />
             </button>
             <img
               src="https://img.freepik.com/premium-vector/logo-bus-icon-vector-silhouette-isolated-design-school-bus-concept-black-icon_653669-3331.jpg?w=740"
@@ -151,7 +151,7 @@ function Body() {
             </div>
           </div>
         </div>
-        <div className="  lg:w-1/2 shadow-lg md:w-full   h-[70vh] flex flex-col  overflow-y-auto items-center p-1">
+        <div className="  lg:w-1/2 shadow-lg md:w-full   h-[80vh] flex flex-col  overflow-y-auto items-center p-1">
           <h1 className="   bg-blue-800  w-full bg-opacity-94  text-white p-3">{`Bus's Travelling through ${from} to ${to}`}</h1>
 
           <div className="p-3  w-full">

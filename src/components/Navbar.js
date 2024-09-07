@@ -19,7 +19,7 @@ function Navbar() {
       : navigate("/map");
   };
   return (
-    <div className="bg-black z-200   relative text-white h-15   p-2 flex items-center justify-between flex-col lg:flex-row">
+    <div className="bg-black z-200 top-0  sticky relative text-white h-15   p-2 flex items-center justify-between flex-col lg:flex-row">
       <div className="flex items-center  ">
         <button onClick={() => navigate("/")} className="flex items-center">
           <img

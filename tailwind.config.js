@@ -2,12 +2,17 @@
 module.exports = {
   content: ["./src/**/*.{js,jsx,ts,tsx}"],
   theme: {
-    extend: {},
-  },
-  extend: {
-    backgroundImage: {
-      hero: "url('/src/assets/logo.png')",
+    extend: {
+      backgroundImage: {
+        "custom-bg": "url('/src/assets/bg4.jpg')",
+        road: "url('/src/assets/scattered-forcefields.png')",
+      },
+      fontFamily: {
+        poppins: ["Poppins", "sans-serif"],
+        silkScreen: ["Silkscreen", "sans-serif"],
+      },
     },
   },
+
   plugins: [],
 };
