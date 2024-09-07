@@ -11,11 +11,6 @@ function Shedule() {
   const [curr, setCurr] = useState([]);
 
   const currTrip = trip.schedule;
-  // const currTime = new Date().getHours();
-  const currTime = 4;
-  // const startTime = curr.stations[0].arrivalTime;
-  // const endTime = curr.stations[curr.stations?.length - 1].departureTime;
-  // console.log(startTime, endTime);
 
   const handleExpand = (curr) => {
     setCurr(curr);
@@ -39,7 +34,7 @@ function Shedule() {
       </div>
 
       <div className=" h-[80vh]  w-screen overflow-y-auto overflow-x-auto flex  flex-col  items-center  text-center">
-        {currTrip.map((curr) => (
+        {currTrip?.map((curr) => (
           <div className="flex flex-col lg:flex-row p-3 bg-slate-100  w-full lg:w-[150vh] m-1 uppercase justify-between  items-center text-left hover:shadow-lg cursor-pointer ">
             {/* <ArrowDownward /> */}
             <p>Trip No:{curr.trip}</p>

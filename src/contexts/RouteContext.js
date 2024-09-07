@@ -3,8 +3,6 @@ import { React, createContext, useContext, useState } from "react";
 const RouteContext = createContext();
 
 export const RouteProvider = ({ children }) => {
-  const [from, setFrom] = useState("");
-  const [to, setTo] = useState("");
   const [vehicles, setVehicles] = useState([]);
   const [vehicle, setVehicle] = useState("");
   const [trip, setTrip] = useState([]);
@@ -15,10 +13,6 @@ export const RouteProvider = ({ children }) => {
   return (
     <RouteContext.Provider
       value={{
-        from,
-        setFrom,
-        to,
-        setTo,
         vehicles,
         setVehicles,
         vehicle,

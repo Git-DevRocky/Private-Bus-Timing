@@ -1,23 +1,25 @@
-import React from "react";
+import React, { useState } from "react";
 
 import { useRoute } from "../contexts/RouteContext";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import GitHubIcon from "@mui/icons-material/GitHub";
+import Hamburger from "hamburger-react";
 function Navbar() {
   const { setDist } = useRoute();
   const navigate = useNavigate();
+  const [isOpen, setOpen] = useState(false);
   return (
     <div className="bg-black z-100  sticky top-0 text-white h-15   p-2 flex items-center justify-between flex-col lg:flex-row">
       <div className="flex items-center  ">
-        <a href="/" className="flex items-center">
+        <button onClick={() => navigate("/")} className="flex items-center">
           <img
             src="https://i.pinimg.com/736x/3e/17/bd/3e17bdebf827bb5c34cb7900c901acec.jpg"
             alt="logo"
             className="h-10 w-10 "
           />
           <h1 className="mx-3 font-bold lg:text-2xl">Bus-Timings</h1>
-        </a>
+        </button>
       </div>
 
       <div className="flex items-center bg-gray-300 lg:p-2 p-2  lg:m-3  lg:mx-3 rounded-full  text-black uppercase">
@@ -43,18 +45,44 @@ function Navbar() {
         </select>
       </div>
       <div className="flex items-center   ">
-        <a href="/addroute" className="hidden lg:flex">
-          <button className="bg-blue-800 px-6 py-2 rounded-md font-semibold hover:bg-blue-700 m-2">
-            Add Route
-          </button>
-        </a>
-        <a
-          href="https://github.com/albinsabu2023/Pathanamthitta-bus-timings"
-          className="hidden lg:flex"
-        >
-          <GitHubIcon fontSize="large" />
-        </a>
+        {isOpen && (
+          <div className="flex flex-col absolute  top-10 right-20 p-2 h-60 w-40 z-400  bg-violet-800 text-white rounded cursor-pointer justify-center items-center">
+            <ul>
+              <button onClick={() => navigate("/")} className="w-full">
+                <li className="p-1 hover:bg-gray-200 hover:text-black hover:rounded ">
+                  Home
+                </li>
+              </button>
 
+              <button onClick={() => navigate("/map")} className="w-full">
+                <li className="p-1 hover:bg-gray-200 hover:text-black hover:rounded">
+                  View in Map
+                </li>
+              </button>
+
+              <button onClick={() => navigate("/addroute")} className="w-full">
+                <li className="p-1 hover:bg-gray-200 hover:text-black hover:rounded">
+                  Add Route
+                </li>
+              </button>
+
+              <a
+                href="https://github.com/albinsabu2023/Kerala-Private-Bus-Timing-App"
+                className="w-full"
+              >
+                <li className="p-1 hover:bg-gray-200 hover:text-black hover:rounded">
+                  Github Repo
+                </li>
+              </a>
+
+              <li className="p-1 hover:bg-gray-200 hover:text-black hover:rounded w-full">
+                Live Track
+              </li>
+            </ul>
+          </div>
+        )}
+
+        <Hamburger toggled={isOpen} toggle={setOpen} />
         <button
           className=" text-white lg:px-6   rounded-md font-semibold   "
           onClick={() => navigate(-1)}
