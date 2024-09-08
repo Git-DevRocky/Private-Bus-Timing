@@ -80,8 +80,8 @@ function Body() {
 
       {!dist && (
         <div className="flex items-center justify-center h-screen w-screen fixed bg-black bg-opacity-90  ">
-          <div className=" z-400  h-[60vh] w-[50vw] flex items-center justify-center bg-white text-black font-silkScreen text-5xl p-4 sticky   rounded-md flex-col  ">
-            <p>select a region</p>
+          <div className=" z-400  h-[60vh] w-[70vw] lg:w-[50vh] flex items-center justify-center bg-white text-black font-silkScreen text-5xl p-4 sticky   rounded-md flex-col  ">
+            <p className="text-xs lg:text-lg">select a region to start</p>
             <ClimbingBoxLoader />
           </div>
         </div>
