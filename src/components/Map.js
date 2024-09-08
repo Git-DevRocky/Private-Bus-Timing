@@ -1,101 +1,121 @@
-// src/MapComponent.js
 import React, { useEffect, useRef, useState } from "react";
 import L from "leaflet";
+
 import "leaflet/dist/leaflet.css";
 import "leaflet-routing-machine/dist/leaflet-routing-machine.css";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+
 import LRM from "leaflet-routing-machine";
 import { useSelector } from "react-redux";
 import { handleGeocode } from "../api/fetchLocation";
-
-import toIconUrl from "../assets/from.png";
+import { HashLoader } from "react-spinners";
+import toIconUrl from "../assets/from1.png";
+import { useNavigate } from "react-router-dom";
 
 const Map = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [fromLatLng, setFromLatLng] = useState([9.5916, 76.5223]);
   const [toLatLng, setToLatLng] = useState([9.2615, 76.7878]);
-  console.log(fromLatLng);
   const to = useSelector((state) => state.location.to);
   const from = useSelector((state) => state.location.from);
-
+  const navigate = useNavigate();
   const toIcon = new L.Icon({
     iconUrl: toIconUrl,
     iconSize: [32, 32],
     iconAnchor: [16, 32],
     popupAnchor: [0, -32],
   });
+
   useEffect(() => {
-    const fetchLocations = async () => {
+    const fetchData = async () => {
       setIsLoading(true);
-      if (to) {
-        const res1 = await handleGeocode(to);
-        setToLatLng([res1.lat, res1.lon]);
-      }
-      if (from) {
-        const res2 = await handleGeocode(from);
-        setFromLatLng([res2.lat, res2.lon]);
+      try {
+        if (to) {
+          const res1 = await handleGeocode(to.replace(/\s+/g, ""));
+          if (!isNaN(res1?.lat)) {
+            const formatLat = parseFloat(res1?.lat).toFixed(2);
+            const formatLon = parseFloat(res1?.lon).toFixed(2);
+            setToLatLng([parseFloat(formatLat), parseFloat(formatLon)]);
+          }
+        }
+        if (from) {
+          const res2 = await handleGeocode(from.replace(/\s+/g, ""));
+          if (!isNaN(res2.lat)) {
+            const formatLat = parseFloat(res2?.lat).toFixed(2);
+            const formatLon = parseFloat(res2?.lon).toFixed(3);
+            setFromLatLng([parseFloat(formatLat), parseFloat(formatLon)]);
+          }
+        }
+      } catch (error) {
+        // console.error("Error fetching location:", error);
+
+        navigate("/error");
+      } finally {
+        setIsLoading(false);
       }
     };
-    setTimeout(() => {}, 1500);
 
-    fetchLocations();
-    setIsLoading(false);
+    fetchData();
   }, [to, from]);
 
-  const mapRef = useRef(null);
-
+  const mapRef = useRef();
   useEffect(() => {
-    if (!mapRef.current) return;
+    try {
+      if (!mapRef.current) return;
+      const map = mapRef.current;
+      console.log("hey we are iside");
 
-    const map = mapRef.current;
+      map.eachLayer((layer) => {
+        if (layer instanceof L.routing.control) {
+          map.removeControl(layer);
+        }
+      });
 
-    // Clear previous routing if any
-    map.eachLayer((layer) => {
-      if (layer instanceof LRM.Routing.Control) {
-        map.removeControl(layer);
-      }
-    });
+      const routingControl = L.routing
+        .control({
+          waypoints: [
+            L.latLng(fromLatLng[0], fromLatLng[1]),
+            L.latLng(toLatLng[0], toLatLng[1]),
+          ],
+          lineOptions: {
+            styles: [{ color: "blue", weight: 10 }],
+          },
+          routeWhileDragging: true,
+        })
+        .addTo(map);
 
-    const existingRoutingControl = map.getControl("routing");
-    if (existingRoutingControl) {
-      map.removeControl(existingRoutingControl);
+      routingControl.on("routesfound", (e) => {
+        const route = e.routes[0];
+        const bounds = route.getBounds();
+        map.fitBounds(bounds);
+      });
+
+      return () => {
+        map.eachLayer((layer) => {
+          if (layer instanceof L.routing.control) {
+            map.removeControl(layer);
+          }
+        });
+      };
+    } catch (error) {
+      navigate("/error");
+      console.log(error);
     }
-
-    // Add routing control
-    const routingControl = LRM.control({
-      waypoints: [L.latLng(fromLatLng), L.latLng(toLatLng)],
-      lineOptions: {
-        styles: [{ color: "blue", weight: 10 }],
-      },
-      routeWhileDragging: true,
-    }).addTo(map);
-
-    // Fit map bounds to the route
-    routingControl.on("routesfound", (e) => {
-      const route = e.routes[0];
-      const bounds = route.getBounds();
-      map.fitBounds(bounds);
-    });
-
-    // Cleanup
-    return () => {
-      map.removeControl(routingControl);
-    };
-  }, [fromLatLng, toLatLng]);
+  }, []);
 
   return (
-    <div className="h-screen bg-black bg-opacity-90 text-white">
+    <div className="h-screen  text-white">
       {isLoading ? (
-        <div>
-          <h1>map is loading....</h1>
+        <div className="bg-white bg-opacity-90 flex items-center justify-center h-full w-full ">
+          <HashLoader color="#3d8050" loading={isLoading} />
         </div>
       ) : (
         <MapContainer
-          center={[9.5916, 76.5223]} // Initial center, will be adjusted by fitBounds
+          center={fromLatLng ? fromLatLng : toLatLng}
           zoom={13}
+          id="mapId"
           style={{ height: "100vh", width: "100vw" }}
-          whenCreated={(map) => (mapRef.current = map)}
-          className=" z-10 relative"
+          className="z-10 relative"
         >
           <TileLayer
             url="https://a.tile.openstreetmap.org/{z}/{x}/{y}.png"

@@ -9,6 +9,7 @@ import Map from "./components/Map";
 
 import { Provider } from "react-redux";
 import { store } from "./redux/store";
+import Error from "./components/Error";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
             <Route path="/schedule" element={<Shedule />} />
             <Route path="/addroute" element={<AddRoute />} />
             <Route path="/map" element={<Map />} />
+            <Route path="/error" element={<Error />} />
           </Routes>
         </Provider>
       </BrowserRouter>
