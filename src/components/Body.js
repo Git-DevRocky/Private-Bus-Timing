@@ -9,7 +9,7 @@ import LocationOnIcon from "@mui/icons-material/LocationOn";
 import NotListedLocationIcon from "@mui/icons-material/NotListedLocation";
 import { useDispatch, useSelector } from "react-redux";
 import { Audio } from "react-loader-spinner";
-import { CSpinner } from "@coreui/react";
+
 import CachedIcon from "@mui/icons-material/Cached";
 function Body() {
   const { dist } = useRoute();
@@ -49,6 +49,7 @@ function Body() {
   const uniqueRoutes = [
     ...new Set(schedules.map((schedule) => schedule.route[0])),
   ];
+  uniqueRoutes.sort((a, b) => a.localeCompare(b));
 
   const fetchData = async () => {
     setLoading(true);
@@ -58,7 +59,7 @@ function Body() {
       );
       //
       setSchedules(res.data.busSchedules);
-      console.log("fetched data");
+
       setTimeout(() => {}, 3000);
       setVehicles([]);
       setLoading(false);

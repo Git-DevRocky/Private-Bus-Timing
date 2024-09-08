@@ -13,6 +13,7 @@ function Navbar() {
   const [isOpen, setOpen] = useState(false);
   const to = useSelector((state) => state.location.to);
   const from = useSelector((state) => state.location.from);
+
   const handleMap = () => {
     to === "" && from === ""
       ? alert("you have to select route")
@@ -53,6 +54,7 @@ function Navbar() {
           <option value="wayanad"> Wayanad</option>
         </select>
       </div>
+
       <div className="flex items-center   ">
         {isOpen && (
           <div className="flex flex-col absolute  top-10 right-20 p-2 h-60 w-40 z-400  bg-violet-800 text-white rounded cursor-pointer justify-center items-center">
