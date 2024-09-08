@@ -39,7 +39,7 @@ function Shedule() {
         {currTrip?.map((curr) => (
           <div className="flex flex-col lg:flex-row p-3 bg-white bg-opacity-80  w-full lg:w-[150vh] m-1 rounded uppercase justify-between  items-center text-left hover:shadow-lg cursor-pointer ">
             {/* <ArrowDownward /> */}
-            <p>Trip No:{curr.trip}</p>
+            <p>{curr.trip}</p>
             <div className="flex flex-col items-start text-left justify-center p-1 m-1">
               <p className="text-left">
                 Starting station :

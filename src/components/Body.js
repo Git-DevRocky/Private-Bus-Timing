@@ -8,23 +8,13 @@ import toast, { Toaster } from "react-hot-toast";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import NotListedLocationIcon from "@mui/icons-material/NotListedLocation";
 import { useDispatch, useSelector } from "react-redux";
-import { Audio } from "react-loader-spinner";
-
+import { BarLoader, ClimbingBoxLoader } from "react-spinners";
 import CachedIcon from "@mui/icons-material/Cached";
+
 function Body() {
   const { dist } = useRoute();
 
-  const {
-    // from,
-    // to,
-    // setFrom,
-    // setTo,
-    vehicles,
-    setVehicles,
-    setVehicle,
-    setRoutes,
-    setTrip,
-  } = useRoute();
+  const { vehicles, setVehicles, setVehicle, setRoutes, setTrip } = useRoute();
   const dispatch = useDispatch();
   const { schedules, setSchedules } = useRoute();
   const to = useSelector((state) => state.location.to);
@@ -43,7 +33,6 @@ function Body() {
 
   useEffect(() => {
     setVehicles([]);
-    console.log(to, from);
   }, [to, from]);
 
   const uniqueRoutes = [
@@ -79,21 +68,22 @@ function Body() {
   };
 
   return (
-    <div className="flex w-full  flex-col bg-road bg-cover bg-center h-[75vh]  z-50 font-poppins">
+    <div className="flex w-full  flex-col bg-road bg-cover bg-center h-full  z-50 font-poppins">
       <div>
         <Toaster />
       </div>
       {loading && (
-        <div className="h-full w-full z-300 absolute flex items-center justify-center bg-gray-500 bg-opacity-60">
-          <Audio
-            height="80"
-            width="80"
-            radius="9"
-            color="green"
-            ariaLabel="three-dots-loading"
-            wrapperStyle
-            wrapperClass
-          />
+        <div className="h-full w-full z-300 absolute flex items-center justify-center bg-black bg-opacity-90">
+          <BarLoader loading={loading} color="#FFFFFF" />
+        </div>
+      )}
+
+      {!dist && (
+        <div className="flex items-center justify-center h-screen w-screen fixed bg-black bg-opacity-90  ">
+          <div className=" z-400  h-[60vh] w-[50vw] flex items-center justify-center bg-white text-black font-silkScreen text-5xl p-4 sticky   rounded-md flex-col  ">
+            <p>select a region</p>
+            <ClimbingBoxLoader />
+          </div>
         </div>
       )}
 
@@ -101,12 +91,12 @@ function Body() {
         Route Details - Timings
       </p> */}
 
-      <div className="flex  lg:p-3  p-1 h-[100vh] w-full  flex-col lg:flex-row">
+      <div className="flex  lg:p-3  p-1 h-full w-full  flex-col lg:flex-row text-xs lg:text-sm">
         <div className="   lg:w-1/2 shadow-lg md:w-full   lg:h-[80vh]  flex flex-col  overflow-y-auto items-center p-1">
-          <div className="flex items-center  flex-col  w-full ">
+          <div className="flex items-center  flex-col h-full w-full ">
             <button
               onClick={handleSearch}
-              className="p-2 bg-green-700 text-white rounded hover:bg-green-600"
+              className=" p-2 bg-green-700 text-white rounded hover:bg-green-600 "
             >
               Load Routes <CachedIcon />
             </button>
@@ -128,7 +118,7 @@ function Body() {
                 >
                   {/* <option value="">Select Starting point</option> */}
                   {uniqueRoutes.map((route, index) => (
-                    <option key={index} className="text-sm ">
+                    <option key={index} className="text-sm">
                       {route}
                     </option>
                   ))}
@@ -156,8 +146,11 @@ function Body() {
           <h1 className="   bg-blue-800  w-full bg-opacity-94  text-white p-3">{`Bus's Travelling through ${from} to ${to}`}</h1>
 
           <div className="p-3  w-full">
-            {vehicles.map((v) => (
-              <div className="flex bg-gray-200 p-3  hover:shadow hover:shadow-gray-200 cursor-pointer m-1 justify-between  rounded ">
+            {vehicles.map((v, key) => (
+              <div
+                key={key}
+                className="flex bg-gray-200 p-3  hover:shadow hover:shadow-gray-200 cursor-pointer m-1 justify-between  rounded "
+              >
                 <h1 className="font-bold text-green-600" key={v.id}>
                   {v} :
                 </h1>

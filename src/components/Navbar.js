@@ -20,7 +20,7 @@ function Navbar() {
       : navigate("/map");
   };
   return (
-    <div className="bg-black z-200 top-0  sticky relative text-white h-15   p-2 flex items-center justify-between flex-col lg:flex-row">
+    <div className="bg-black z-200 top-0  sticky relative text-white h-15   p-2 flex items-center justify-between flex-row  ">
       <div className="flex items-center  ">
         <button onClick={() => navigate("/")} className="flex items-center">
           <img
@@ -28,14 +28,18 @@ function Navbar() {
             alt="logo"
             className="h-10 w-10 "
           />
-          <h1 className="mx-3 font-bold lg:text-2xl">Bus-Timings</h1>
+          <h1 className="mx-3 font-bold lg:text-2xl hidden lg:flex">
+            Bus-Timings
+          </h1>
         </button>
       </div>
 
       <div className="flex items-center bg-gray-300 lg:p-2 p-2  lg:m-3  lg:mx-3 rounded-full  text-black uppercase">
-        <h1 className="font-semibold lg:px-2">Select Region</h1>
+        <h1 className="font-semibold lg:px-2 text-xs lg:text-sm  ">
+          Select Region
+        </h1>
         <select
-          className="p-1  outline-none bg-gray-300 cursor-pointer"
+          className="p-1  outline-none bg-gray-300 cursor-pointer text-xs lg:text-sm"
           onChange={(e) => setDist(e.target.value)}
         >
           <option value="alappuzha"> Alappuzha</option>
@@ -95,7 +99,7 @@ function Navbar() {
 
         <Hamburger toggled={isOpen} toggle={setOpen} />
         <button
-          className=" text-white lg:px-6   rounded-md font-semibold   "
+          className=" text-white lg:px-6   rounded-md font-semibold hidden lg:flex   "
           onClick={() => navigate(-1)}
         >
           <ArrowBackIcon />
