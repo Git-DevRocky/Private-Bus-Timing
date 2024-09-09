@@ -10,6 +10,7 @@ import { useSelector } from "react-redux";
 function Navbar() {
   const { setDist } = useRoute();
   const navigate = useNavigate();
+
   const [isOpen, setOpen] = useState(false);
   const to = useSelector((state) => state.location.to);
   const from = useSelector((state) => state.location.from);
@@ -18,6 +19,15 @@ function Navbar() {
     to === "" && from === ""
       ? alert("you have to select route")
       : navigate("/map");
+    setOpen(false);
+  };
+  const handleHome = () => {
+    navigate("/");
+    setOpen(false);
+  };
+  const handleAddRoute = () => {
+    navigate("/addroute");
+    setOpen(false);
   };
   return (
     <div className="bg-black z-200 top-0  sticky relative text-white h-15   p-2 flex items-center justify-between flex-row  ">
@@ -61,9 +71,9 @@ function Navbar() {
 
       <div className="flex items-center   ">
         {isOpen && (
-          <div className="flex flex-col absolute  top-10 right-20 p-2 h-60 w-40 z-400  bg-violet-800 text-white rounded cursor-pointer justify-center items-center">
+          <div className="flex flex-col  absolute top-10 right-20 p-2 h-60 w-40 z-10  bg-violet-800 text-white rounded cursor-pointer justify-center items-center ">
             <ul>
-              <button onClick={() => navigate("/")} className="w-full">
+              <button onClick={() => handleHome()} className="w-full">
                 <li className="p-1 hover:bg-gray-200 hover:text-black hover:rounded ">
                   Home
                 </li>
@@ -75,28 +85,30 @@ function Navbar() {
                 </li>
               </button>
 
-              <button onClick={() => navigate("/addroute")} className="w-full">
+              <button onClick={() => handleAddRoute()} className="w-full">
                 <li className="p-1 hover:bg-gray-200 hover:text-black hover:rounded">
                   Add Route
                 </li>
               </button>
 
-              <a
-                href="https://github.com/albinsabu2023/Kerala-Private-Bus-Timing-App"
-                className="w-full"
-              >
-                <li className="p-1 hover:bg-gray-200 hover:text-black hover:rounded">
-                  Github Repo
+              <button onClick={() => setOpen(false)}>
+                <a
+                  href="https://github.com/albinsabu2023/Kerala-Private-Bus-Timing-App"
+                  className="w-full"
+                >
+                  <li className="p-1 hover:bg-gray-200 hover:text-black hover:rounded">
+                    Github Repo
+                  </li>
+                </a>
+              </button>
+              <button onClick={() => setOpen(false)}>
+                <li className="p-1 hover:bg-gray-200 hover:text-black hover:rounded w-full">
+                  Live Track
                 </li>
-              </a>
-
-              <li className="p-1 hover:bg-gray-200 hover:text-black hover:rounded w-full">
-                Live Track
-              </li>
+              </button>
             </ul>
           </div>
         )}
-
         <Hamburger toggled={isOpen} toggle={setOpen} />
         <button
           className=" text-white lg:px-6   rounded-md font-semibold hidden lg:flex   "

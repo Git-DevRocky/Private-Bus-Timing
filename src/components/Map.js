@@ -5,7 +5,6 @@ import "leaflet/dist/leaflet.css";
 import "leaflet-routing-machine/dist/leaflet-routing-machine.css";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 
-// import LRM from "leaflet-routing-machine";
 import { useSelector } from "react-redux";
 import { handleGeocode } from "../api/fetchLocation";
 import { HashLoader } from "react-spinners";
@@ -66,25 +65,30 @@ const Map = () => {
       console.log("hey we are iside");
 
       map.eachLayer((layer) => {
-        if (layer instanceof L.routing.control) {
+        if (layer instanceof L.Routing.control) {
           map.removeControl(layer);
         }
       });
 
-      const routingControl = L.routing
-        .control({
-          waypoints: [
-            L.latLng(fromLatLng[0], fromLatLng[1]),
-            L.latLng(toLatLng[0], toLatLng[1]),
-          ],
-          lineOptions: {
-            styles: [{ color: "blue", weight: 10 }],
-          },
-          routeWhileDragging: true,
-        })
-        .addTo(map);
+      const routingControl = L.Routing.control({
+        waypoints: [
+          L.latLng(fromLatLng[0], fromLatLng[1]),
+          L.latLng(toLatLng[0], toLatLng[1]),
+        ],
+        router: L.Routing.osrmv1({
+          language: "en",
+          profile: "driving",
+        }),
+
+        lineOptions: {
+          styles: [{ color: "blue", weight: 20 }],
+        },
+
+        routeWhileDragging: true,
+      }).addTo(map);
 
       routingControl.on("routesfound", (e) => {
+        console.log(e);
         const route = e.routes[0];
         const bounds = route.getBounds();
         map.fitBounds(bounds);
@@ -92,7 +96,7 @@ const Map = () => {
 
       return () => {
         map.eachLayer((layer) => {
-          if (layer instanceof L.routing.control) {
+          if (layer instanceof L.Routing.control) {
             map.removeControl(layer);
           }
         });
@@ -110,24 +114,29 @@ const Map = () => {
           <HashLoader color="#3d8050" loading={isLoading} />
         </div>
       ) : (
-        <MapContainer
-          center={fromLatLng ? fromLatLng : toLatLng}
-          zoom={13}
-          id="mapId"
-          style={{ height: "100vh", width: "100vw" }}
-          className="z-10 relative"
-        >
-          <TileLayer
-            url="https://a.tile.openstreetmap.org/{z}/{x}/{y}.png"
-            maxZoom={19}
-          />
-          <Marker position={fromLatLng} icon={toIcon}>
-            <Popup>From Point</Popup>
-          </Marker>
-          <Marker position={toLatLng} icon={toIcon}>
-            <Popup>To Point</Popup>
-          </Marker>
-        </MapContainer>
+        <div>
+          <div className="">
+            <MapContainer
+              center={fromLatLng ? fromLatLng : toLatLng}
+              zoom={13}
+              id="mapId"
+              whenReady={(map) => (mapRef.current = map)}
+              style={{ height: "100vh", width: "100vw" }}
+              className="z-300 absolute"
+            >
+              <TileLayer
+                url="https://a.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                maxZoom={19}
+              />
+              <Marker position={fromLatLng} icon={toIcon}>
+                <Popup>From Point</Popup>
+              </Marker>
+              <Marker position={toLatLng} icon={toIcon}>
+                <Popup>To Point</Popup>
+              </Marker>
+            </MapContainer>
+          </div>
+        </div>
       )}
     </div>
   );
