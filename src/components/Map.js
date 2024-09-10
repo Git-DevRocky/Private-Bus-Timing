@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import "leaflet-routing-machine/dist/leaflet-routing-machine.css";
@@ -8,7 +8,10 @@ import { HashLoader } from "react-spinners";
 import { useNavigate } from "react-router-dom";
 
 import { MapContainer, Marker, Popup, WMSTileLayer } from "react-leaflet";
+
 import toIconUrl from "../assets/from1.png";
+import RoutingMachine from "./RoutingMachine";
+
 const toIcon = new L.Icon({
   iconUrl: toIconUrl,
   iconSize: [32, 32],
@@ -22,7 +25,6 @@ const Map = () => {
   const to = useSelector((state) => state.location.to);
   const from = useSelector((state) => state.location.from);
   const navigate = useNavigate();
-  const mapRef = useRef(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -39,8 +41,8 @@ const Map = () => {
         if (from) {
           const res2 = await handleGeocode(from.replace(/\s+/g, ""));
           if (!isNaN(res2.lat)) {
-            const formatLat = parseFloat(res2?.lat).toFixed(2);
-            const formatLon = parseFloat(res2?.lon).toFixed(3);
+            const formatLat = parseFloat(res2?.lat);
+            const formatLon = parseFloat(res2?.lon);
             setFromLatLng([parseFloat(formatLat), parseFloat(formatLon)]);
           }
         }
@@ -54,36 +56,6 @@ const Map = () => {
     fetchData();
   }, [to, from, navigate]);
 
-  useEffect(() => {
-    if (!mapRef.current) return;
-
-    const map = mapRef.current.leafletElement;
-
-    if (map && fromLatLng && toLatLng) {
-      const routingControl = L.Routing.control({
-        waypoints: [L.latLng(...fromLatLng), L.latLng(...toLatLng)],
-        router: L.Routing.osrmv1({
-          language: "en",
-          profile: "driving",
-        }),
-        lineOptions: {
-          styles: [{ color: "blue", weight: 20 }],
-        },
-        routeWhileDragging: true,
-      }).addTo(map);
-
-      routingControl.on("routesfound", (e) => {
-        const route = e.routes[0];
-        const bounds = route.getBounds();
-        map.fitBounds(bounds);
-      });
-
-      return () => {
-        map.removeControl(routingControl);
-      };
-    }
-  }, [fromLatLng, toLatLng]);
-
   return (
     <div className="h-screen text-white">
       {isLoading ? (
@@ -91,18 +63,20 @@ const Map = () => {
           <HashLoader color="#3d8050" loading={isLoading} />
         </div>
       ) : (
-        <div id="mapId">
+        <div id="mapId absolute z-200">
           <MapContainer
             center={fromLatLng ? fromLatLng : toLatLng}
             zoom={13}
             id="mapId"
-            style={{ height: "100vh", width: "100%" }}
+            style={{ height: "600px", width: "100%" }}
+            className="text-black"
           >
             <WMSTileLayer
               attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
               url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
               maxZoom={19}
             />
+            <RoutingMachine fromLatLng={fromLatLng} toLatLng={toLatLng} />
             <Marker position={fromLatLng} icon={toIcon}>
               <Popup>From Point</Popup>
             </Marker>

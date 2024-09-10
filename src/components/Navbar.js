@@ -69,9 +69,9 @@ function Navbar() {
         </select>
       </div>
 
-      <div className="flex items-center   ">
+      <div className="flex items-center  ">
         {isOpen && (
-          <div className="flex flex-col  absolute top-10 right-20 p-2 h-60 w-40 z-10  bg-violet-800 text-white rounded cursor-pointer justify-center items-center ">
+          <div className="flex flex-col  absolute top-10 right-20 p-2 h-60 w-40   bg-violet-800 text-white rounded cursor-pointer justify-center items-center ">
             <ul>
               <button onClick={() => handleHome()} className="w-full">
                 <li className="p-1 hover:bg-gray-200 hover:text-black hover:rounded ">
