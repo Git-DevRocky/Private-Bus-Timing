@@ -10,10 +10,10 @@ import NotListedLocationIcon from "@mui/icons-material/NotListedLocation";
 import { useDispatch, useSelector } from "react-redux";
 import { BarLoader, ClimbingBoxLoader } from "react-spinners";
 import CachedIcon from "@mui/icons-material/Cached";
+import Autocomplete from "./AutoComplete";
 
 function Body() {
   const { dist } = useRoute();
-
   const { vehicles, setVehicles, setVehicle, setRoutes, setTrip } = useRoute();
   const dispatch = useDispatch();
   const { schedules, setSchedules } = useRoute();
@@ -21,6 +21,9 @@ function Body() {
   const from = useSelector((state) => state.location.from);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+
+  const [filteredOptionsFrom, setFilteredOptionsFrom] = useState([]);
+  const [isOptionsOpenFrom, setIsOptionsOpenFrom] = useState(false);
 
   schedules.filter((schedule) => {
     if (schedule.route.includes(from) && schedule.route.includes(to)) {
@@ -32,7 +35,6 @@ function Body() {
     }
     return "";
   });
-  console.log(schedules);
 
   useEffect(() => {
     setVehicles([]);
@@ -45,6 +47,35 @@ function Body() {
   ];
   uniqueRoutes.sort((a, b) => a.localeCompare(b));
   // console.log(uniqueRoutes);
+
+  ////autocompletefrom
+  const handleChangeFrom = (event) => {
+    const value = event.target.value;
+
+    dispatch(setFrom(value));
+    if (value) {
+      const filtered = uniqueRoutes.filter((option) =>
+        option.toLowerCase().includes(value.toLowerCase())
+      );
+      setFilteredOptionsFrom(filtered);
+      setIsOptionsOpenFrom(true);
+    } else {
+      setFilteredOptionsFrom([]);
+      setIsOptionsOpenFrom(false);
+    }
+  };
+
+  const handleOptionClickFrom = (option) => {
+    dispatch(setFrom(option));
+    console.log("clickked", option);
+    setFilteredOptionsFrom([]);
+    setIsOptionsOpenFrom(false);
+  };
+
+  const handleBlurFrom = () => {
+    setTimeout(() => setIsOptionsOpenFrom(false), 100); // Delay to allow click event on options
+  };
+
   const fetchData = async () => {
     setLoading(true);
     try {
@@ -59,6 +90,7 @@ function Body() {
       setLoading(false);
       toast.success("success");
     } catch (err) {
+      toast.error("Failed to load data");
       console.log(err);
     }
   };
@@ -73,7 +105,7 @@ function Body() {
   };
 
   return (
-    <div className="flex w-full  flex-col bg-road bg-custom bg-cover bg-center h-full  z-50 font-poppins">
+    <div className="flex w-full  flex-col bg-road bg-custom bg-cover bg-center h-full  z-50 font-poppins ">
       <div>
         <Toaster />
       </div>
@@ -85,7 +117,7 @@ function Body() {
 
       {!dist && (
         <div className="flex items-center justify-center h-screen w-screen fixed bg-black bg-opacity-90  ">
-          <div className=" z-400  h-[60vh] w-[70vw] lg:w-[50vh] flex items-center justify-center bg-white text-black font-silkScreen text-5xl p-4 sticky   rounded-md flex-col  ">
+          <div className="   h-[60vh] w-[70vw] lg:w-[50vh] flex items-center justify-center bg-white text-black font-silkScreen text-5xl p-4 sticky   rounded-md flex-col  ">
             <p className="text-xs lg:text-lg">select a region to start </p>
             <ClimbingBoxLoader />
             <p> then laod route</p>
@@ -97,8 +129,8 @@ function Body() {
         Route Details - Timings
       </p> */}
 
-      <div className="flex  lg:p-3  p-1 h-full w-full  flex-col lg:flex-row text-xs lg:text-sm">
-        <div className="   lg:w-1/2 shadow-lg md:w-full   lg:h-[80vh]  flex flex-col  overflow-y-auto items-center p-1">
+      <div className="flex  lg:p-3  p-1 h-full w-full  flex-col lg:flex-row text-xs lg:text-sm ">
+        <div className="   lg:w-1/2 md:w-full   lg:h-[80vh]  flex flex-col  overflow-y-auto items-center p-1">
           <div className="flex items-center  flex-col h-full w-full ">
             <button
               onClick={handleSearch}
@@ -115,35 +147,72 @@ function Body() {
             />
 
             <div className=" text-black flex p-3   flex-col lg:w-full">
-              <div className="flex items-center bg-gray-300  p-2 rounded-full m-3  lg:mx-3 w-full justify-between">
-                <LocationOnIcon />
-                <p>From</p>
-                <select
-                  className="p-1  outline-none bg-gray-300 cursor-pointer w-full"
-                  onChange={(e) => dispatch(setFrom(e.target.value))}
-                >
-                  {/* <option value="">Select Starting point</option> */}
-                  {uniqueRoutes.map((route, index) => (
-                    <option key={index} className="text-sm">
-                      {route}
-                    </option>
-                  ))}
-                </select>
+              <div className="flex items-center bg-gray-300  p-2 rounded-full m-3  lg:mx-3 w-full justify-between ">
+                <div className="flex">
+                  <LocationOnIcon />
+                  <p>From</p>
+                </div>
+                <div className="flex  ">
+                  <select
+                    value={from}
+                    className="p-1  outline-none bg-gray-300 cursor-pointer w-full"
+                    onChange={(e) => dispatch(setFrom(e.target.value))}
+                  >
+                    {/* <option value="">Select Starting point</option> */}
+                    {uniqueRoutes.map((route, index) => (
+                      <option key={index} className="text-sm">
+                        {route}
+                      </option>
+                    ))}
+                  </select>
+                  <div
+                    className=" inline-block w-[100%] "
+                    onBlur={handleBlurFrom}
+                  >
+                    <input
+                      type="text"
+                      value={from}
+                      className=" p-2 rounded bg-gray-300 border shadow-md  outline-none"
+                      placeholder="type place"
+                      onChange={handleChangeFrom}
+                      onFocus={() => setIsOptionsOpenFrom(true)}
+                    />
+                    {isOptionsOpenFrom && filteredOptionsFrom.length > 0 && (
+                      <ul className="absolute lg:top-[75vh] top-[60vh] left-20 right-0 lg:bottom-5 bottom-40 border lg:cursor-pointer bg-white  text-black shadow max-h-25 w-1/2 m-3 overflow-y-scroll z-10  ">
+                        {filteredOptionsFrom.map((option, index) => (
+                          <li
+                            key={index}
+                            onMouseDown={() => handleOptionClickFrom(option)}
+                            onClick={() => handleOptionClickFrom(option)}
+                            className="p-2 cursor-pointer hover:shadow-lg m-1  flex justify-center"
+                          >
+                            {option}
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                  </div>
+                </div>
               </div>
               <div className="flex items-center bg-gray-300  p-2 rounded-full m-3  lg:mx-3 w-full justify-between ">
-                <NotListedLocationIcon />
-                <p>To</p>
-                <select
-                  className="p-1  outline-none bg-gray-300 cursor-pointer w-full"
-                  onChange={(e) => dispatch(setTo(e.target.value))}
-                >
-                  {/* <option value="">Select Your Destination</option> */}
-                  {uniqueRoutes.map((route, index) => (
-                    <option key={index} className="text-sm">
-                      {route}
-                    </option>
-                  ))}
-                </select>
+                <div className="flex">
+                  <NotListedLocationIcon />
+                  <p>To</p>
+                </div>
+                <div className="flex ">
+                  <select
+                    value={to}
+                    className="p-1  outline-none bg-gray-300 cursor-pointer w-full "
+                    onChange={(e) => dispatch(setTo(e.target.value))}
+                  >
+                    {uniqueRoutes.map((route, index) => (
+                      <option key={index} className="text-sm ">
+                        {route}
+                      </option>
+                    ))}
+                  </select>
+                  <Autocomplete options={uniqueRoutes} />
+                </div>
               </div>
             </div>
           </div>

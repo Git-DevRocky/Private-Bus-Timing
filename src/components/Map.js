@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import "leaflet-routing-machine/dist/leaflet-routing-machine.css";
@@ -19,6 +19,7 @@ const toIcon = new L.Icon({
   popupAnchor: [0, -32],
 });
 const Map = () => {
+  const mapRef = useRef();
   const [isLoading, setIsLoading] = useState(false);
   const [fromLatLng, setFromLatLng] = useState([9.5916, 76.5223]);
   const [toLatLng, setToLatLng] = useState([9.2615, 76.7878]);
@@ -57,7 +58,7 @@ const Map = () => {
   }, [to, from, navigate]);
 
   return (
-    <div className="h-screen text-white">
+    <div className=" text-white">
       {isLoading ? (
         <div className="bg-white bg-opacity-90 flex items-center justify-center h-full w-full">
           <HashLoader color="#3d8050" loading={isLoading} />
@@ -67,6 +68,7 @@ const Map = () => {
           <MapContainer
             center={fromLatLng ? fromLatLng : toLatLng}
             zoom={13}
+            red={mapRef}
             id="mapId"
             style={{ height: "600px", width: "100%" }}
             className="text-black"
@@ -76,7 +78,11 @@ const Map = () => {
               url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
               maxZoom={19}
             />
-            <RoutingMachine fromLatLng={fromLatLng} toLatLng={toLatLng} />
+            <RoutingMachine
+              fromLatLng={fromLatLng}
+              toLatLng={toLatLng}
+              ref={mapRef}
+            />
             <Marker position={fromLatLng} icon={toIcon}>
               <Popup>From Point</Popup>
             </Marker>
