@@ -48,7 +48,7 @@ const Autocomplete = ({ options }) => {
       />
 
       {isOptionsOpen && filteredOptions.length > 0 && (
-        <ul className="absolute lg:top-[80vh]  top-40 left-20 right-0 bottom-[60vh] lg:bottom-5 border bg-white  text-black shadow min-h-30  w-1/2 m-3  z-10 overflow-y-scroll">
+        <ul className="absolute lg:top-[80vh]  top-40 left-20 right-0 bottom-[20vh] lg:bottom-5 border bg-white  text-black shadow min-h-30  w-1/2 m-3  z-10 overflow-y-scroll">
           {filteredOptions.map((option, index) => (
             <li
               key={index}

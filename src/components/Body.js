@@ -149,7 +149,7 @@ function Body() {
               </button>
               <div className="flex  items-center justify-center m-2 ">
                 <p className="px-3  text-xs text-green-800 font-bold ">
-                  filter based on Time
+                  filter with Time
                 </p>
                 <div
                   className="px-2 rounded-full cursor-pointer w-20 bg-gray-100  shadow-lg  border  "
@@ -166,6 +166,8 @@ function Body() {
                     </div>
                   )}
                 </div>
+
+                <p>{new Date().toLocaleTimeString()}</p>
               </div>
             </div>
             <img
@@ -208,7 +210,7 @@ function Body() {
                       onFocus={() => setIsOptionsOpenFrom(true)}
                     />
                     {isOptionsOpenFrom && filteredOptionsFrom.length > 0 && (
-                      <ul className="absolute lg:top-[75vh] top-20 left-20 right-0 lg:bottom-5 bottom-[70vh] border lg:cursor-pointer bg-white  text-black shadow max-h-25 w-1/2 m-3 overflow-y-scroll z-10  ">
+                      <ul className="absolute lg:top-[75vh] top-20 left-20 right-0 lg:bottom-5 bottom-[30vh] border lg:cursor-pointer bg-white  text-black shadow max-h-25 w-1/2 m-3 overflow-y-scroll z-10  ">
                         {filteredOptionsFrom.map((option, index) => (
                           <li
                             key={index}
