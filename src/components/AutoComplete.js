@@ -41,14 +41,14 @@ const Autocomplete = ({ options }) => {
       <input
         type="text"
         value={to}
-        className=" p-2 rounded border bg-gray-300  shadow-md  outline-none"
+        className=" p-2 rounded w-full border bg-gray-300  shadow-md  outline-none"
         placeholder="type place"
         onChange={handleChange}
         onFocus={() => setIsOptionsOpen(true)}
       />
 
       {isOptionsOpen && filteredOptions.length > 0 && (
-        <ul className="absolute lg:top-[80vh]  top-20 left-20 right-0 bottom-[70vh] lg:bottom-5 border bg-white  text-black shadow min-h-30  w-1/2 m-3  z-10 overflow-y-scroll">
+        <ul className="absolute lg:top-[80vh]  top-40 left-20 right-0 bottom-[60vh] lg:bottom-5 border bg-white  text-black shadow min-h-30  w-1/2 m-3  z-10 overflow-y-scroll">
           {filteredOptions.map((option, index) => (
             <li
               key={index}
