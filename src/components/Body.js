@@ -178,7 +178,7 @@ function Body() {
                       onFocus={() => setIsOptionsOpenFrom(true)}
                     />
                     {isOptionsOpenFrom && filteredOptionsFrom.length > 0 && (
-                      <ul className="absolute lg:top-[75vh] top-[60vh] left-20 right-0 lg:bottom-5 bottom-40 border lg:cursor-pointer bg-white  text-black shadow max-h-25 w-1/2 m-3 overflow-y-scroll z-10  ">
+                      <ul className="absolute lg:top-[75vh] top-20 left-20 right-0 lg:bottom-5 bottom-[70vh] border lg:cursor-pointer bg-white  text-black shadow max-h-25 w-1/2 m-3 overflow-y-scroll z-10  ">
                         {filteredOptionsFrom.map((option, index) => (
                           <li
                             key={index}

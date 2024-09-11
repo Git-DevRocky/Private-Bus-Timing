@@ -71,7 +71,7 @@ function Navbar() {
 
       <div className="flex items-center  ">
         {isOpen && (
-          <div className="flex flex-col  absolute top-10 right-20 p-2 h-60 w-40   bg-violet-800 text-white rounded cursor-pointer justify-center items-center ">
+          <div className="flex flex-col  absolute top-10 right-20 p-2  w-40   bg-violet-800 text-white rounded cursor-pointer justify-center items-center ">
             <ul>
               <button onClick={() => handleHome()} className="w-full">
                 <li className="p-1 hover:bg-gray-200 hover:text-black hover:rounded ">
@@ -91,16 +91,6 @@ function Navbar() {
                 </li>
               </button>
 
-              <button onClick={() => setOpen(false)}>
-                <a
-                  href="https://github.com/albinsabu2023/Kerala-Private-Bus-Timing-App"
-                  className="w-full"
-                >
-                  <li className="p-1 hover:bg-gray-200 hover:text-black hover:rounded">
-                    Github Repo
-                  </li>
-                </a>
-              </button>
               <button onClick={() => setOpen(false)}>
                 <li className="p-1 hover:bg-gray-200 hover:text-black hover:rounded w-full">
                   Live Track
