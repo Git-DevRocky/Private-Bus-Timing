@@ -78,24 +78,21 @@ function Navbar() {
                   Home
                 </li>
               </button>
-
               <button onClick={() => handleMap()} className="w-full">
                 <li className="p-1 hover:bg-gray-200 hover:text-black hover:rounded">
                   View in Map
                 </li>
               </button>
-
               <button onClick={() => handleAddRoute()} className="w-full">
                 <li className="p-1 hover:bg-gray-200 hover:text-black hover:rounded">
                   Add Route
                 </li>
               </button>
-
-              <button onClick={() => setOpen(false)}>
+              <button onClick={() => setOpen(false)} className="w-full">
                 <li className="p-1 hover:bg-gray-200 hover:text-black hover:rounded w-full">
                   Live Track
                 </li>
-              </button>
+              </button>{" "}
             </ul>
           </div>
         )}

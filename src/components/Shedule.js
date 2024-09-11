@@ -7,15 +7,14 @@ import CloseIcon from "@mui/icons-material/Close";
 
 import BrowseGalleryIcon from "@mui/icons-material/BrowseGallery";
 function Shedule() {
-  const { vehicle, vehicles } = useRoute();
+  const { vehicle, vehicles, setFilteredBus } = useRoute();
   const [isActive, setIsActive] = useState(false);
   const [curr, setCurr] = useState({});
 
   // console.log(trip, "tripp");
   const currTrip = vehicles.filter((v) => v["Vehicle Number"] === vehicle);
-
   const newRoutes = currTrip[0]?.schedule;
-
+  setFilteredBus(newRoutes);
   const handleExpand = (curr) => {
     setCurr(curr);
     setIsActive(true);

@@ -58,7 +58,7 @@ const Map = () => {
   }, [to, from, navigate]);
 
   return (
-    <div className=" text-white">
+    <div className=" text-white h-screen">
       {isLoading ? (
         <div className="bg-white bg-opacity-90 flex items-center justify-center h-full w-full">
           <HashLoader color="#3d8050" loading={isLoading} />
@@ -70,7 +70,7 @@ const Map = () => {
             zoom={13}
             red={mapRef}
             id="mapId"
-            style={{ height: "600px", width: "100%" }}
+            style={{ height: "100vh", width: "100%" }}
             className="text-black"
           >
             <WMSTileLayer

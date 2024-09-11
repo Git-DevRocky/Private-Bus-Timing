@@ -11,17 +11,27 @@ import { useDispatch, useSelector } from "react-redux";
 import { BarLoader, ClimbingBoxLoader } from "react-spinners";
 import CachedIcon from "@mui/icons-material/Cached";
 import Autocomplete from "./AutoComplete";
-
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import CancelIcon from "@mui/icons-material/Cancel";
+import BusSchedule from "./BusSchedule";
 function Body() {
   const { dist } = useRoute();
-  const { vehicles, setVehicles, setVehicle, setRoutes, setTrip } = useRoute();
+  const {
+    vehicles,
+    setVehicles,
+    setVehicle,
+    setRoutes,
+    setTrip,
+    filteredBus,
+    upcomingTrips,
+  } = useRoute();
   const dispatch = useDispatch();
   const { schedules, setSchedules } = useRoute();
   const to = useSelector((state) => state.location.to);
   const from = useSelector((state) => state.location.from);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-
+  const [isTimeFilter, setIsTimeFilter] = useState(false);
   const [filteredOptionsFrom, setFilteredOptionsFrom] = useState([]);
   const [isOptionsOpenFrom, setIsOptionsOpenFrom] = useState(false);
 
@@ -38,9 +48,7 @@ function Body() {
 
   useEffect(() => {
     setVehicles([]);
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [to, from]);
+  }, [to, from, isTimeFilter]);
 
   const uniqueRoutes = [
     ...new Set(schedules.map((schedule) => schedule.route[0])),
@@ -67,7 +75,7 @@ function Body() {
 
   const handleOptionClickFrom = (option) => {
     dispatch(setFrom(option));
-    console.log("clickked", option);
+
     setFilteredOptionsFrom([]);
     setIsOptionsOpenFrom(false);
   };
@@ -130,14 +138,36 @@ function Body() {
       </p> */}
 
       <div className="flex  lg:p-3  p-1 h-full w-full  flex-col lg:flex-row text-xs lg:text-sm ">
-        <div className="   lg:w-1/2 md:w-full   lg:h-[80vh]  flex flex-col  overflow-y-auto items-center p-1">
+        <div className="   lg:w-1/2 md:w-full   lg:h-[80vh]  flex flex-col  overflow-y-auto items-center p-1 mr-2">
           <div className="flex items-center  flex-col h-full w-full ">
-            <button
-              onClick={handleSearch}
-              className=" p-2 bg-green-700 text-white rounded hover:bg-green-600 "
-            >
-              Load Routes <CachedIcon />
-            </button>
+            <div className="flex justify-center items-center flex-col">
+              <button
+                onClick={handleSearch}
+                className=" p-2 bg-green-700 text-white rounded hover:bg-green-600 "
+              >
+                Load Routes <CachedIcon />
+              </button>
+              <div className="flex  items-center justify-center m-2 ">
+                <p className="px-3  text-xs text-green-800 font-bold ">
+                  filter based on Time
+                </p>
+                <div
+                  className="px-2 rounded-full cursor-pointer w-20 bg-gray-100  shadow-lg  border  "
+                  value={isTimeFilter}
+                  onClick={() => setIsTimeFilter(!isTimeFilter)}
+                >
+                  {!isTimeFilter ? (
+                    <div className="flex justify-start">
+                      <CancelIcon color="disabled" />
+                    </div>
+                  ) : (
+                    <div className="flex justify-end">
+                      <CheckCircleIcon color="inherit" />
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
             <img
               src="https://img.freepik.com/premium-vector/logo-bus-icon-vector-silhouette-isolated-design-school-bus-concept-black-icon_653669-3331.jpg?w=740"
               alt=""
@@ -147,15 +177,15 @@ function Body() {
             />
 
             <div className=" text-black flex p-3   flex-col lg:w-full">
-              <div className="flex items-center bg-gray-300  p-2 rounded-full m-3  lg:mx-3 w-full justify-between ">
-                <div className="flex">
+              <div className="flex items-center bg-gray-300  p-2 rounded m-3 lg:rounded-full  lg:mx-3 w-full justify-between ">
+                <div className="flex items-center justify-center">
                   <LocationOnIcon />
                   <p>From</p>
                 </div>
-                <div className="flex  ">
+                <div className="flex flex-col lg:flex-row ">
                   <select
-                    value={from}
-                    className="p-1  outline-none bg-gray-300 cursor-pointer w-full"
+                    value={from ? from : ""}
+                    className="p-1  outline-none bg-gray-300 cursor-pointer w-full "
                     onChange={(e) => dispatch(setFrom(e.target.value))}
                   >
                     {/* <option value="">Select Starting point</option> */}
@@ -172,7 +202,7 @@ function Body() {
                     <input
                       type="text"
                       value={from}
-                      className=" p-2 rounded bg-gray-300 border shadow-md  outline-none"
+                      className=" p-2 rounded bg-gray-300 border w-full  shadow-md  outline-none"
                       placeholder="type place"
                       onChange={handleChangeFrom}
                       onFocus={() => setIsOptionsOpenFrom(true)}
@@ -194,12 +224,12 @@ function Body() {
                   </div>
                 </div>
               </div>
-              <div className="flex items-center bg-gray-300  p-2 rounded-full m-3  lg:mx-3 w-full justify-between ">
-                <div className="flex">
+              <div className="flex items-center bg-gray-300 p-1 lg:p-2 rounded lg:rounded-full m-3  lg:mx-3 w-full justify-between ">
+                <div className="flex ">
                   <NotListedLocationIcon />
                   <p>To</p>
                 </div>
-                <div className="flex ">
+                <div className="flex  flex-col lg:flex-row">
                   <select
                     value={to}
                     className="p-1  outline-none bg-gray-300 cursor-pointer w-full "
@@ -220,25 +250,29 @@ function Body() {
         <div className="  lg:w-1/2 shadow-lg md:w-full   h-[80vh] flex flex-col  overflow-y-auto items-center p-1">
           <h1 className="   bg-blue-800  w-full bg-opacity-94  text-white p-3">{`Bus's Travelling through ${from} to ${to}`}</h1>
 
-          <div className="p-3  w-full">
-            {vehicles.map((v, index) => (
-              <div
-                key={index}
-                className="flex bg-gray-200 p-3  hover:shadow hover:shadow-gray-200 cursor-pointer m-1 justify-between  rounded "
-              >
-                <h1 className="font-bold text-green-600" key={v.id}>
-                  {v["Vehicle Number"]} :
-                </h1>
-
-                <button
-                  className="bg-blue-800 hover:bg-blue-600 text-white rounded-md px-3 py-1"
-                  onClick={() => handleClick(v["Vehicle Number"])}
+          {isTimeFilter ? (
+            <BusSchedule />
+          ) : (
+            <div className="p-3  w-full">
+              {vehicles.map((v, index) => (
+                <div
+                  key={index}
+                  className="flex bg-gray-200 p-3  hover:shadow hover:shadow-gray-200 cursor-pointer m-1 justify-between  rounded "
                 >
-                  View Route
-                </button>
-              </div>
-            ))}
-          </div>
+                  <h1 className="font-bold text-green-600" key={v.id}>
+                    {v["Vehicle Number"]} :
+                  </h1>
+
+                  <button
+                    className="bg-blue-800 hover:bg-blue-600 text-white rounded-md px-3 py-1"
+                    onClick={() => handleClick(v["Vehicle Number"])}
+                  >
+                    View Route
+                  </button>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </div>
