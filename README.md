@@ -14,7 +14,11 @@ This web application allows users to search and view the timings of private buse
 
 ## Data Source
 
-The application uses a collection of JSON data to provide up-to-date bus timings and district details. This data includes timings for various bus routes across the Kerala
+- The application uses a collection of JSON data to provide up-to-date bus timings and district details. This data includes timings for various bus routes across the Kerala
+- https://github.com/amith-vp/Kerala-Private-Bus-Timing
+- Geocoding api to fetch latitude and longitude for  placename 
+- react-leaflet-map and leaflet-routing-machine were used for map view
+- redux-tool kit  & context api for state management across components 
 
 ## How to Use
 
@@ -66,4 +70,4 @@ If you appreciate the work and would like to support further development, consid
 
 ---
 
-Thank you for checking out the Pathanamthitta Private Bus Timings web application! If you have any questions or feedback, don't hesitate to reach out.
+Thank you for checking out the Kerala Private Bus Timings web application! If you have any questions or feedback, don't hesitate to reach out.
