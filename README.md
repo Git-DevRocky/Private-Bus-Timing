@@ -40,7 +40,7 @@ This project currently includes data for the following places:
 - Wayanad
 - Vadakara
 
-Feel free to explore the website and discover the bus timings for these locations. 
+Feel free to explore the website and discover the bus timings for these locations.
 
 ## Get Involved
 

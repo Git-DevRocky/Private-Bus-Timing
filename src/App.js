@@ -3,6 +3,7 @@ import Body from "./components/Body";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Shedule from "./components/Shedule";
 import AddRoute from "./components/AddRoute";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 import Navbar from "./components/Navbar";
 import Map from "./components/Map";
@@ -28,6 +29,7 @@ function App() {
         </Provider>
       </BrowserRouter>
       <Foooter />
+      <SpeedInsights />
     </div>
   );
 }
