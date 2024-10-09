@@ -57,11 +57,11 @@ We are working on adding more places and features in future updates. Stay tuned 
 ## Contributing
 
 We welcome contributions! If you have suggestions or improvements, please feel free to open an issue or submit a pull request.
-
+fork repo
 clone repo <br>
- ``` git clone ``` <br>
+ ``` git clone  <repourl>``` <br>
 create your branch <br>
- ``` git checkout branch <branchname> ``` <br>
+ ``` git checkout -b <add/fix> ``` <br>
 implement your changes <br>
 add changed files to branch  <br>
 ```git add <filename1> <filename2>``` <br>
