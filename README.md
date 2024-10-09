@@ -58,6 +58,20 @@ We are working on adding more places and features in future updates. Stay tuned 
 
 We welcome contributions! If you have suggestions or improvements, please feel free to open an issue or submit a pull request.
 
+clone repo <br>
+ ``` git clone ``` <br>
+create your branch <br>
+ ``` git checkout branch <branchname> ``` <br>
+implement your changes <br>
+add changed files to branch  <br>
+```git add <filename1> <filename2>``` <br>
+commit recent changes  <br>
+``` git commit -m "your message in detail ``` <br>
+push you branch   <br>
+``` git  push <branchname> ``` <br>
+create pull request  <br>
+ 
+
 ## License
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
