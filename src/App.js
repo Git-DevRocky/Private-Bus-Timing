@@ -10,7 +10,9 @@ import Map from "./components/Map";
 import { Provider } from "react-redux";
 import { store } from "./redux/store";
 import Error from "./components/Error";
+
 import Foooter from "./components/Foooter";
+
 
 function App() {
   return (

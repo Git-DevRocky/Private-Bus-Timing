@@ -8,7 +8,9 @@ import toast, { Toaster } from "react-hot-toast";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import NotListedLocationIcon from "@mui/icons-material/NotListedLocation";
 import { useDispatch, useSelector } from "react-redux";
+
 import { BarLoader, ClimbingBoxLoader } from "react-spinners";
+
 import CachedIcon from "@mui/icons-material/Cached";
 import Autocomplete from "./AutoComplete";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
@@ -16,6 +18,9 @@ import CancelIcon from "@mui/icons-material/Cancel";
 import BusSchedule from "./BusSchedule";
 function Body() {
   const { dist } = useRoute();
+
+
+ 
   const {
     vehicles,
     setVehicles,
@@ -25,6 +30,7 @@ function Body() {
     filteredBus,
     upcomingTrips,
   } = useRoute();
+
   const dispatch = useDispatch();
   const { schedules, setSchedules } = useRoute();
   const to = useSelector((state) => state.location.to);
@@ -48,6 +54,7 @@ function Body() {
 
   useEffect(() => {
     setVehicles([]);
+
   }, [to, from, isTimeFilter]);
 
   const uniqueRoutes = [
@@ -118,6 +125,7 @@ function Body() {
         <Toaster />
       </div>
       {loading && (
+
         <div className="h-full w-full z-300 absolute flex items-center justify-center bg-black bg-opacity-90">
           <BarLoader loading={loading} color="#FFFFFF" />
         </div>
@@ -130,6 +138,7 @@ function Body() {
             <ClimbingBoxLoader />
             <p> then laod route</p>
           </div>
+
         </div>
       )}
 
@@ -179,6 +188,8 @@ function Body() {
             />
 
             <div className=" text-black flex p-3   flex-col lg:w-full">
+
+      
               <div className="flex items-center bg-gray-300  p-2 rounded m-3 lg:rounded-full  lg:mx-3 w-full justify-between ">
                 <div className="flex items-center justify-center">
                   <LocationOnIcon />
@@ -225,6 +236,7 @@ function Body() {
                     )}
                   </div>
                 </div>
+
               </div>
               <div className="flex items-center bg-gray-300 p-1 lg:p-2 rounded lg:rounded-full m-3  lg:mx-3 w-full justify-between ">
                 <div className="flex ">
@@ -252,6 +264,20 @@ function Body() {
         <div className="  lg:w-1/2 shadow-lg md:w-full   h-[80vh] flex flex-col  overflow-y-auto items-center p-1">
           <h1 className="   bg-blue-800  w-full bg-opacity-94  text-white p-3">{`Bus's Travelling through ${from} to ${to}`}</h1>
 
+          <div className="p-3  w-full">
+            {vehicles.map((v, key) => (
+              <div
+                key={key}
+                className="flex bg-gray-200 p-3  hover:shadow hover:shadow-gray-200 cursor-pointer m-1 justify-between  rounded "
+              >
+                <h1 className="font-bold text-green-600" key={v.id}>
+                  {v} :
+                </h1>
+
+                <button
+                  className="bg-blue-800 hover:bg-blue-600 text-white rounded-md px-3 py-1"
+                  onClick={() => handleClick(v)}
+
           {isTimeFilter ? (
             <BusSchedule />
           ) : (
@@ -260,6 +286,7 @@ function Body() {
                 <div
                   key={index}
                   className="flex bg-gray-200 p-3  hover:shadow hover:shadow-gray-200 cursor-pointer m-1 justify-between  rounded "
+
                 >
                   <h1 className="font-bold text-green-600" key={v.id}>
                     {v["Vehicle Number"]} :

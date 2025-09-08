@@ -6,8 +6,12 @@ module.exports = {
       backgroundImage: {
         "custom-bg": "url('/src/assets/bg4.jpg')",
         road: "url('/src/assets/scattered-forcefields.png')",
+
+        err: "url('/src/assets/errr.avif')",
+
         err: "url('/src/assets/errr.webp')",
         newRoad: "url('/src/assets/rod.png')",
+
       },
       fontFamily: {
         poppins: ["Poppins", "sans-serif"],

@@ -82,5 +82,7 @@ If you appreciate the work and would like to support further development, consid
 
 [Buy Me a Coffee](https://buymeacoffee.com/albinsabu)
 
----
-Thank you for checking out the Kerala Private Bus Timings web application! If you have any questions or feedback, don't hesitate to reach out.
+
+
+Thank you for checking out the Kerala Private Bus Timings web application! If you have any questions or feedback, don't hesitate to reach out .
+
