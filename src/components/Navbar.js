@@ -28,7 +28,7 @@ function Navbar() {
             alt="logo"
             className="h-10 w-10 "
           />
-          <h1 className="mx-3 font-bold lg:text-2xl">Bus-Timings</h1>
+          <h1 className="mx-3 font-bold lg:text-2xl">SyncBus</h1>
         </button>
       </div>
 
