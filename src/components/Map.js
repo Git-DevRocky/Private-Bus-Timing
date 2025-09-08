@@ -3,6 +3,7 @@ import L from "leaflet";
 
 import "leaflet/dist/leaflet.css";
 import "leaflet-routing-machine/dist/leaflet-routing-machine.css";
+
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 
 import LRM from "leaflet-routing-machine";
@@ -12,19 +13,33 @@ import { HashLoader } from "react-spinners";
 import toIconUrl from "../assets/from1.png";
 import { useNavigate } from "react-router-dom";
 
+
+
+import toIconUrl from "../assets/from1.png";
+import RoutingMachine from "./RoutingMachine";
+
+const toIcon = new L.Icon({
+  iconUrl: toIconUrl,
+  iconSize: [32, 32],
+  iconAnchor: [16, 32],
+  popupAnchor: [0, -32],
+});
 const Map = () => {
+  const mapRef = useRef();
   const [isLoading, setIsLoading] = useState(false);
   const [fromLatLng, setFromLatLng] = useState([9.5916, 76.5223]);
   const [toLatLng, setToLatLng] = useState([9.2615, 76.7878]);
   const to = useSelector((state) => state.location.to);
   const from = useSelector((state) => state.location.from);
   const navigate = useNavigate();
+
   const toIcon = new L.Icon({
     iconUrl: toIconUrl,
     iconSize: [32, 32],
     iconAnchor: [16, 32],
     popupAnchor: [0, -32],
   });
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -41,19 +56,21 @@ const Map = () => {
         if (from) {
           const res2 = await handleGeocode(from.replace(/\s+/g, ""));
           if (!isNaN(res2.lat)) {
-            const formatLat = parseFloat(res2?.lat).toFixed(2);
-            const formatLon = parseFloat(res2?.lon).toFixed(3);
+
+            const formatLat = parseFloat(res2?.lat);
+            const formatLon = parseFloat(res2?.lon);
+
             setFromLatLng([parseFloat(formatLat), parseFloat(formatLon)]);
           }
         }
       } catch (error) {
-        // console.error("Error fetching location:", error);
 
         navigate("/error");
       } finally {
         setIsLoading(false);
       }
     };
+
 
     fetchData();
   }, [to, from]);
@@ -128,6 +145,46 @@ const Map = () => {
             <Popup>To Point</Popup>
           </Marker>
         </MapContainer>
+
+
+    fetchData();
+  }, [to, from, navigate]);
+
+  return (
+    <div className=" text-white h-screen">
+      {isLoading ? (
+        <div className="bg-white bg-opacity-90 flex items-center justify-center h-full w-full">
+          <HashLoader color="#3d8050" loading={isLoading} />
+        </div>
+      ) : (
+        <div id="mapId absolute z-200">
+          <MapContainer
+            center={fromLatLng ? fromLatLng : toLatLng}
+            zoom={13}
+            red={mapRef}
+            id="mapId"
+            style={{ height: "100vh", width: "100%" }}
+            className="text-black"
+          >
+            <WMSTileLayer
+              attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+              maxZoom={19}
+            />
+            <RoutingMachine
+              fromLatLng={fromLatLng}
+              toLatLng={toLatLng}
+              ref={mapRef}
+            />
+            <Marker position={fromLatLng} icon={toIcon}>
+              <Popup>From Point</Popup>
+            </Marker>
+            <Marker position={toLatLng} icon={toIcon}>
+              <Popup>To Point</Popup>
+            </Marker>
+          </MapContainer>
+        </div>
+
       )}
     </div>
   );

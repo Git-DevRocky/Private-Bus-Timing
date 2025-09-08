@@ -14,7 +14,11 @@ This web application allows users to search and view the timings of private buse
 
 ## Data Source
 
-The application uses a collection of JSON data to provide up-to-date bus timings and district details. This data includes timings for various bus routes across the Kerala
+- The application uses a collection of JSON data to provide up-to-date bus timings and district details. This data includes timings for various bus routes across the Kerala
+- https://github.com/amith-vp/Kerala-Private-Bus-Timing
+- Geocoding api to fetch latitude and longitude for  placename 
+- react-leaflet-map and leaflet-routing-machine were used for map view
+- redux-tool kit  & context api for state management across components 
 
 ## How to Use
 
@@ -40,7 +44,7 @@ This project currently includes data for the following places:
 - Wayanad
 - Vadakara
 
-Feel free to explore the website and discover the bus timings for these locations. 
+Feel free to explore the website and discover the bus timings for these locations.
 
 ## Get Involved
 
@@ -53,6 +57,20 @@ We are working on adding more places and features in future updates. Stay tuned 
 ## Contributing
 
 We welcome contributions! If you have suggestions or improvements, please feel free to open an issue or submit a pull request.
+fork repo
+clone repo <br>
+ ``` git clone  <repourl>``` <br>
+create your branch <br>
+ ``` git checkout -b <add/fix> ``` <br>
+implement your changes <br>
+add changed files to branch  <br>
+```git add <filename1> <filename2>``` <br>
+commit recent changes  <br>
+``` git commit -m "your message in detail ``` <br>
+push you branch   <br>
+``` git  push <branchname> ``` <br>
+create pull request  <br>
+ 
 
 ## License
 
@@ -64,6 +82,7 @@ If you appreciate the work and would like to support further development, consid
 
 [Buy Me a Coffee](https://buymeacoffee.com/albinsabu)
 
----
+
 
 Thank you for checking out the Kerala Private Bus Timings web application! If you have any questions or feedback, don't hesitate to reach out .
+

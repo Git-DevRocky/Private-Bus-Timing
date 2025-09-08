@@ -1,99 +1,103 @@
 import React, { useState } from "react";
 import { useRoute } from "../contexts/RouteContext";
 import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArrowRight";
-import FullscreenIcon from "@mui/icons-material/Fullscreen";
 
+import FlagCircleIcon from "@mui/icons-material/FlagCircle";
 import CloseIcon from "@mui/icons-material/Close";
 
+import BrowseGalleryIcon from "@mui/icons-material/BrowseGallery";
 function Shedule() {
-  const { vehicle, routes, trip } = useRoute();
+  const { vehicle, vehicles, setFilteredBus } = useRoute();
   const [isActive, setIsActive] = useState(false);
-  const [curr, setCurr] = useState([]);
+  const [curr, setCurr] = useState({});
 
-  const currTrip = trip.schedule;
-
+  // console.log(trip, "tripp");
+  const currTrip = vehicles.filter((v) => v["Vehicle Number"] === vehicle);
+  const newRoutes = currTrip[0]?.schedule;
+  setFilteredBus(newRoutes);
   const handleExpand = (curr) => {
     setCurr(curr);
     setIsActive(true);
   };
 
   return (
-    <div className="flex flex-col p-4  items-center justify-center  bg-slate-100">
+    <div className="flex flex-col p-4  items-center justify-center  bg-white ">
+      {" "}
       <div className="bg-white bg-opacity-70 w-full i rounded">
-        <div className=" flex  bg-opacity-90 items-center justify-center">
-          <h1 className="font-bold text-2xl text-yellow-600"> {vehicle}</h1>
+        <div className=" flex  bg-opacity-90 items-center justify-center overflow-y-auto">
+          <p className="font-bold text-2xl text-yellow-600">
+            {" "}
+            {vehicle}{" "}
+            <span className="text-blue-800">
+              {new Date().toLocaleTimeString()}
+            </span>
+          </p>
         </div>
         <div className="flex p-2 m-2 overflow-y-auto  shadow-md items-center w-full justify-center  ">
-          {routes.map((route) => (
-            <>
+          {currTrip[0]?.route?.map((route, index) => (
+            <div key={index}>
               <p className="text-xs    m-1   ">
                 {route !== "" ? route : "name error"}
+                <KeyboardDoubleArrowRightIcon />
               </p>
-              <KeyboardDoubleArrowRightIcon />
-            </>
+            </div>
           ))}
         </div>
       </div>
+      <div className="w-full h-[100%]">
+        {newRoutes?.map((route) => (
+          <div className="flex w-full auto  ">
+            <div className="flex flex-col  w-3 items-center justifu-center ">
+              <FlagCircleIcon color="primary" />
 
-      <div className=" h-[80vh]  w-screen overflow-y-auto overflow-x-auto flex  flex-col  items-center  text-center ">
-        {currTrip?.map((curr) => (
-          <div className="flex flex-col lg:flex-row p-3 bg-white bg-opacity-80  w-full lg:w-[150vh] m-1 rounded uppercase justify-between  items-center text-left hover:shadow-lg cursor-pointer ">
-            {/* <ArrowDownward /> */}
-            <p>Trip No:{curr.trip}</p>
-            <div className="flex flex-col items-start text-left justify-center p-1 m-1">
-              <p className="text-left">
-                Starting station :
-                <span className="font-bold text-blue-600">
-                  {curr.stations[0].station}
-                </span>
-              </p>
-              <p>
-                Arrival:
-                <span className="font-bold text-green-600">
-                  {" "}
-                  {curr.stations[0].arrivalTime}
-                </span>
-              </p>
+              <div className="bg-newRoad h-3/4 bg-cover  bg-center">
+                <p className="p-1    border-2 b"> </p>
+              </div>
             </div>
-            <div className="flex flex-col items-center text-left justify-center p-1 m-1 text-sm">
-              <p className="text-left">
-                Ending station :
-                <span className="font-bold text-blue-600">
-                  {curr.stations[curr.stations?.length - 1].station}
-                </span>
-              </p>
-              <p>
-                Departure:
-                <span className="font-bold text-red-600">
-                  {curr.stations[curr.stations?.length - 1].departureTime}
-                </span>
-              </p>
-            </div>
+            <div className=" flex flex-col lg:flex-row  justify-between lg:h-20 lg:p-5  p-3   rounded m-2 w-full border  border-black">
+              <div className="flex flex-col  lg:p-4 items-center justify-center lg:m-1 ">
+                <p className="p-1 m-1 font-bold">
+                  START:{route.stations[0].station}{" "}
+                </p>
+                <p className="p-1 m-1">
+                  <BrowseGalleryIcon color="secondary" className="mx-3" />
+                  {route.stations[0].arrivalTime}
+                </p>
+              </div>
+              <div className="flex flex-col lg:p-4 items-center  justify-center lg:m-1">
+                <p className="p-1 m-1 font-bold">
+                  END:{route.stations[route.stations.length - 1].station}
+                </p>
+                <p className="p-1 m-1">
+                  <BrowseGalleryIcon color="error" className="mx-3" />
+                  {route.stations[route.stations.length - 1].departureTime}
+                </p>
+              </div>
 
-            <button
-              className="p-1 bg-slate-900 hover:bg-slate-600 text-white px-2 rounded-full  "
-              onClick={() => handleExpand(curr)}
-            >
-              more
-              <FullscreenIcon className=" text-2xl  p-1 " />
-            </button>
+              <button
+                onClick={() => handleExpand(route)}
+                className="px-2 py-1 right-0 bg-black font-semibold text-white rounded cursor-pointer hover:bg-white hover:text-black border hover:border-black "
+              >
+                view
+              </button>
+            </div>
           </div>
         ))}
       </div>
       {isActive && (
-        <div className="overflow-y-auto overflow-x-hidden fixed top-0 right-50 left-50 z-50 flex flex-col  md:inset-0 h-[calc(100%-1rem)]  bg-black bg-opacity-85 text-white">
+        <div className="overflow-y-auto overflow fixed top-0 right-50 left-50 z-50 flex flex-col  md:inset-0 h-[calc(100%-1rem)]  bg-black bg-opacity-85 text-white">
           <button onClick={() => setIsActive(false)} className="justify-end">
             <CloseIcon className="bg-white p-2 rounded-full text-black text-2xl font-bold m-4" />
           </button>
-          <div className="flex flex-col items-center justify-center">
-            <h1 className="text-3xl font-bold ">Intermediate Stations</h1>
+          <div className="flex flex-col items-center text-xs uppercase justify-center">
+            <h1 className=" font-bold  ">Intermediate Stations</h1>
             <div className="w-[80vw] m-3 overflow-y-auto ">
               <div className="p-3  flex bg-white m-1  text-black font-bold">
                 <p className="w-1/3">Station</p>
                 <p className="w-1/3">Arrival</p>
                 <p className="w-1/3">Departure</p>
               </div>
-              {curr.stations.map((station) => (
+              {curr?.stations?.map((station) => (
                 <div className="p-3  flex bg-slate-700  m-1 cursor-pointer hover:bg-slate-600  overflow-y-auto">
                   <p className="w-1/3">{station.station}</p>
                   <p className="w-1/3">{station.arrivalTime}</p>
